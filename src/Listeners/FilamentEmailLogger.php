@@ -3,6 +3,7 @@
 namespace RickDBCN\FilamentEmail\Listeners;
 
 use RickDBCN\FilamentEmail\Models\Email;
+use Filament\Facades\Filament;
 
 class FilamentEmailLogger
 {
@@ -34,6 +35,7 @@ class FilamentEmailLogger
             'text_body' => $email->getTextBody(),
             'raw_body' => $rawMessage->getMessage()->toString(),
             'sent_debug_info' => $rawMessage->getDebug(),
+            'team_id' => Filament::getTenant()->id
         ]);
 
     }
@@ -43,7 +45,7 @@ class FilamentEmailLogger
         return implode(
             ',',
             array_map(function ($email) {
-                return "{$email->getAddress()}".($email->getName() ? " <{$email->getName()}>" : '');
+                return "{$email->getAddress()}" . ($email->getName() ? " <{$email->getName()}>" : '');
             }, $recipients)
         );
     }

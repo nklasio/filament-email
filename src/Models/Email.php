@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Team;
+
 
 /**
  * Email
@@ -34,5 +37,10 @@ class Email extends Model
     public function prunable()
     {
         return static::where('created_at', '<=', now()->subDays(Config::get('filament-email-log.keep_email_for_days')));
+    }
+
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class);
     }
 }
